@@ -46,7 +46,7 @@ ALLOWED_ATTRIBUTES = {
 }
 
 # ============================================================
-# 2. CLEANED DATASET (Explicitly maps categories cleanly)
+# 2. CLEANED DATASET
 # ============================================================
 RAW_DATA = [
     # --- BASE RECIPE ---
@@ -121,7 +121,7 @@ RAW_DATA = [
     {"Category": CAT_AROMA, "Descriptor": "Fish", "Recipe": R_4, "Value": 1, "Verbatim": "odeur de poisson"},
     {"Category": CAT_AROMA, "Descriptor": "Vegetal", "Recipe": R_4, "Value": 1, "Verbatim": "odeur végétale appréciée"},
     {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_4, "Value": 1, "Verbatim": "Bon parfum gustatif de poisson"},
-    {"Category": CAT_TASTE, "Descriptor": "Fresh", "Recipe": R_4, "Value": 1, "Verbatim": "plus frais"},
+    {"Category": CAT_TASTE, "Recipe": R_4, "Descriptor": "Fresh", "Value": 1, "Verbatim": "plus frais"},
     {"Category": CAT_TASTE, "Descriptor": "Salty", "Recipe": R_4, "Value": 1, "Verbatim": "salty"},
     {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_4, "Value": 1, "Verbatim": "texture granuleuse"},
     {"Category": CAT_TEXTURE, "Descriptor": "Sticky", "Recipe": R_4, "Value": 1, "Verbatim": "impression de coller aux dents"},
@@ -129,11 +129,10 @@ RAW_DATA = [
 ]
 
 # ============================================================
-# 3. INTERACTIVE ENGINE WITH STRICT GEOMETRY VALIDATION
+# 3. INTERACTIVE ENGINE WITH GEOMETRY AND TEXT FIXED
 # ============================================================
 df = pd.DataFrame(RAW_DATA)
 
-# Keep only paths that match allowed hierarchy mappings perfectly
 valid_rows = []
 for idx, row in df.iterrows():
     cat = row["Category"]
@@ -156,7 +155,7 @@ fig = px.sunburst(
     path=['Category', 'Descriptor', 'Recipe'], 
     values='Value',
     custom_data=['Verbatim'],
-    title="Sensory Profile Wheel of 5 recipes of Rillettes",
+    title="sensory profile wheel of 5 recepes of rillettes",
 )
 
 ids = fig.data[0].ids
@@ -177,25 +176,25 @@ for element_id in ids:
 
 fig.data[0].marker.colors = colors_assigned
 
+# FIX applied here: Changed text orientation parameters to avoid corner crowding
 fig.update_traces(
     textinfo="label",
-    insidetextorientation='radial',  
+    insidetextorientation='auto',  # Realigns skewed text segments nicely to their natural sector centers
     branchvalues="total",
-    insidetextfont=dict(size=11, family="Arial, sans-serif"),
+    insidetextfont=dict(size=12, family="Arial, sans-serif"),
     hovertemplate="<b>Segment:</b> %{label}<br><b>Panel Mentions:</b> %{value}<br><br><i>Verbatims:</i><br>%{customdata[0]}<extra></extra>"
 )
 
-# Refined layout configurations ensuring centered positioning inside Streamlit
+# Title perfectly centered over the plot canvas
 fig.update_layout(
     margin=dict(t=80, l=10, r=10, b=10),
     plot_bgcolor="white",
     paper_bgcolor="white",
     height=850,
     title_font=dict(size=24, family="Arial, sans-serif"),
-    title_x=0.5,            # Exact geometric center coordinate
-    title_xanchor='center', # Anchors title string at its horizontal center
+    title_x=0.5,            
+    title_xanchor='center', 
     title_yanchor='top'
 )
 
-# Render natively
 st.plotly_chart(fig, use_container_width=True)
