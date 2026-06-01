@@ -36,6 +36,7 @@ FAMILY_TRACK_COLORS = {
     CAT_OVERALL:    "#FFF0C2"    # Group 5: Light Ivory Cream
 }
 
+# Strictly defined whitelist map ensuring descriptor-to-parent exclusivity
 ALLOWED_ATTRIBUTES = {
     CAT_APPEARANCE: ["Pale", "Colorful", "Thick", "Particles", "Oily"],
     CAT_AROMA: ["Fish", "Shallot", "Vegetal", "Pepper", "Sulfur", "Weak aroma", "Strong aroma"],
@@ -45,70 +46,101 @@ ALLOWED_ATTRIBUTES = {
 }
 
 # ============================================================
-# 2. SANITIZED DATASET
+# 2. CLEANED DATASET (Explicitly maps categories cleanly)
 # ============================================================
 RAW_DATA = [
+    # --- BASE RECIPE ---
     {"Category": CAT_APPEARANCE, "Descriptor": "Pale", "Recipe": R_BASE, "Value": 2, "Verbatim": "pale color; too pale"},
-    {"Category": CAT_APPEARANCE, "Descriptor": "Liquid", "Recipe": R_BASE, "Value": 2, "Verbatim": "liquid-like; un peu liquide"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Liquid", "Recipe": R_BASE, "Value": 2, "Verbatim": "liquid-like; un peu liquide"},
     {"Category": CAT_APPEARANCE, "Descriptor": "Thick", "Recipe": R_BASE, "Value": 1, "Verbatim": "aspect de bouillie"},
     {"Category": CAT_APPEARANCE, "Descriptor": "Particles", "Recipe": R_BASE, "Value": 1, "Verbatim": "petites particules"},
     {"Category": CAT_APPEARANCE, "Descriptor": "Oily", "Recipe": R_BASE, "Value": 2, "Verbatim": "brillant; huileux, gras"},
     {"Category": CAT_AROMA, "Descriptor": "Shallot", "Recipe": R_BASE, "Value": 1, "Verbatim": "échalotte"},
     {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_BASE, "Value": 2, "Verbatim": "très peu d’odeur; odeur équilibrée"},
-    {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_BASE, "Value": 2, "Verbatim": "goût de poisson pas très prononcé; plus d’arôme en bouche"},
+    {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_BASE, "Value": 2, "Verbatim": "goût de poisson pas très prononcé"},
     {"Category": CAT_TASTE, "Descriptor": "Fresh", "Recipe": R_BASE, "Value": 2, "Verbatim": "humide; frais; léger"},
     {"Category": CAT_TEXTURE, "Descriptor": "Easy swallowing", "Recipe": R_BASE, "Value": 1, "Verbatim": "fondant"},
     {"Category": CAT_TEXTURE, "Descriptor": "Lumpy", "Recipe": R_BASE, "Value": 1, "Verbatim": "texture un peu grumeleuse / collante"},
     {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_BASE, "Value": 1, "Verbatim": "peu granuleux"},
-    {"Category": CAT_OVERALL, "Descriptor": "Pleasant", "Recipe": R_BASE, "Value": 2, "Verbatim": "arômes agréables en bouche"},
     {"Category": CAT_OVERALL, "Descriptor": "Not appetizing", "Recipe": R_BASE, "Value": 1, "Verbatim": "dommage que la couleur soit peu attractive"},
+
+    # --- RECIPE 1 ---
     {"Category": CAT_APPEARANCE, "Descriptor": "Thick", "Recipe": R_1, "Value": 1, "Verbatim": "Aspect de bouillie"},
     {"Category": CAT_APPEARANCE, "Descriptor": "Particles", "Recipe": R_1, "Value": 1, "Verbatim": "particule végétale agréable"},
-    {"Category": CAT_APPEARANCE, "Descriptor": "Not appetizing", "Recipe": R_1, "Value": 2, "Verbatim": "Peu appétissant"},
     {"Category": CAT_AROMA, "Descriptor": "Strong aroma", "Recipe": R_1, "Value": 1, "Verbatim": "plus forte à l'ouverture"},
-    {"Category": CAT_AROMA, "Descriptor": "Sulfur", "Recipe": R_1, "Value": 1, "Verbatim": "légère odeur fromagère"},
+    {"Category": CAT_AROMA, "Descriptor": "Sulfur", "Recipe": R_1, "Value": 1, "Verbatim": "légère odeur fromagère; note soufrée"},
     {"Category": CAT_AROMA, "Descriptor": "Shallot", "Recipe": R_1, "Value": 1, "Verbatim": "échalote"},
-    {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_1, "Value": 2, "Verbatim": "Peu d’odeur"},
+    {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_1, "Value": 2, "Verbatim": "Peu d’odeur; Pas de véritable odeur"},
     {"Category": CAT_TASTE, "Descriptor": "Salty", "Recipe": R_1, "Value": 1, "Verbatim": "salé"},
-    {"Category": CAT_TASTE, "Descriptor": "Spicy", "Recipe": R_1, "Value": 2, "Verbatim": "épicé avec ail; poivré"},
+    {"Category": CAT_TASTE, "Descriptor": "Spicy", "Recipe": R_1, "Value": 2, "Verbatim": "épicé avec ail un peu prononcé; poivré"},
     {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_1, "Value": 1, "Verbatim": "Bon goût de poisson"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_1, "Value": 2, "Verbatim": "un peu plus granuleux"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_1, "Value": 2, "Verbatim": "un peu plus granuleux; plus granuleux"},
     {"Category": CAT_TEXTURE, "Descriptor": "Lumpy", "Recipe": R_1, "Value": 1, "Verbatim": "plus grumelux"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Smooth", "Recipe": R_1, "Value": 1, "Verbatim": "moins crémeux"},
-    {"Category": CAT_OVERALL, "Descriptor": "Pleasant", "Recipe": R_1, "Value": 2, "Verbatim": "très bon; bon"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Smooth", "Recipe": R_1, "Value": 1, "Verbatim": "moins crémeux / plus pâteux"},
     {"Category": CAT_OVERALL, "Descriptor": "Texture not great", "Recipe": R_1, "Value": 1, "Verbatim": "texture pas super"},
+
+    # --- RECIPE 2 ---
     {"Category": CAT_APPEARANCE, "Descriptor": "Thick", "Recipe": R_2, "Value": 1, "Verbatim": "Fait un peu bouillie"},
-    {"Category": CAT_APPEARANCE, "Descriptor": "Colorful", "Recipe": R_2, "Value": 2, "Verbatim": "Plus coloré; belles couleurs"},
-    {"Category": CAT_APPEARANCE, "Descriptor": "Particles", "Recipe": R_2, "Value": 1, "Verbatim": "particules végétales"},
-    {"Category": CAT_AROMA, "Descriptor": "Pepper", "Recipe": R_2, "Value": 2, "Verbatim": "odeur de poivron strong"},
+    {"Category": CAT_APPEARANCE, "Descriptor": "Colorful", "Recipe": R_2, "Value": 2, "Verbatim": "Plus coloré (poireaux); belles couleurs"},
+    {"Category": CAT_APPEARANCE, "Descriptor": "Particles", "Recipe": R_2, "Value": 1, "Verbatim": "particules végétales appréciées"},
+    {"Category": CAT_AROMA, "Descriptor": "Pepper", "Recipe": R_2, "Value": 2, "Verbatim": "odeur de poivron de moyenne à forte"},
     {"Category": CAT_AROMA, "Descriptor": "Vegetal", "Recipe": R_2, "Value": 1, "Verbatim": "Bonne odeur d’aromates"},
-    {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_2, "Value": 2, "Verbatim": "très faible"},
+    {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_2, "Value": 2, "Verbatim": "très faible; Je ne perçois pas d’odeur"},
     {"Category": CAT_AROMA, "Descriptor": "Fish", "Recipe": R_2, "Value": 1, "Verbatim": "poisson très présent"},
-    {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_2, "Value": 1, "Verbatim": "on ne sent pas le goût"},
+    {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_2, "Value": 1, "Verbatim": "on ne sent pas le goût de poisson"},
     {"Category": CAT_TASTE, "Descriptor": "Salty", "Recipe": R_2, "Value": 1, "Verbatim": "salé"},
-    {"Category": CAT_TASTE, "Descriptor": "Pepper", "Recipe": R_2, "Value": 1, "Verbatim": "goût de poivron dominant"},
     {"Category": CAT_TASTE, "Descriptor": "Fresh", "Recipe": R_2, "Value": 1, "Verbatim": "Goût frais"},
     {"Category": CAT_TASTE, "Descriptor": "Spicy", "Recipe": R_2, "Value": 1, "Verbatim": "piquant"},
     {"Category": CAT_TEXTURE, "Descriptor": "Lumpy", "Recipe": R_2, "Value": 1, "Verbatim": "aspect un peu grumeleuse"},
     {"Category": CAT_TEXTURE, "Descriptor": "Sticky", "Recipe": R_2, "Value": 1, "Verbatim": "collant aux dents"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Difficult swallowing", "Recipe": R_2, "Value": 1, "Verbatim": "moyen car grains"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Difficult swallowing", "Recipe": R_2, "Value": 1, "Verbatim": "moyen car beaucoup de grains"},
     {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_2, "Value": 1, "Verbatim": "plus granuleux"},
     {"Category": CAT_OVERALL, "Descriptor": "Texture not great", "Recipe": R_2, "Value": 1, "Verbatim": "la texture pourrait être améliorée"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Smooth", "Recipe": R_3, "Value": 2, "Verbatim": "très crémeux"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Easy swallowing", "Recipe": R_3, "Value": 1, "Verbatim": "fondant"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Lumpy", "Recipe": R_3, "Value": 1, "Verbatim": "un peu grumeleuse"},
-    {"Category": CAT_APPEARANCE, "Descriptor": "Pale", "Recipe": R_3, "Value": 2, "Verbatim": "un peu pâle"},
+
+    # --- RECIPE 3 ---
+    {"Category": CAT_TEXTURE, "Descriptor": "Smooth", "Recipe": R_3, "Value": 1, "Verbatim": "bien lisse mais pas liquide"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Liquid", "Recipe": R_3, "Value": 1, "Verbatim": "white and liquid-like"},
+    {"Category": CAT_APPEARANCE, "Descriptor": "Pale", "Recipe": R_3, "Value": 2, "Verbatim": "un peu pâle; pâle"},
+    {"Category": CAT_APPEARANCE, "Descriptor": "Thick", "Recipe": R_3, "Value": 1, "Verbatim": "aspect de bouillie"},
+    {"Category": CAT_AROMA, "Descriptor": "Shallot", "Recipe": R_3, "Value": 1, "Verbatim": "échalote"},
+    {"Category": CAT_AROMA, "Descriptor": "Fish", "Recipe": R_3, "Value": 1, "Verbatim": "arôme de poisson dominant"},
+    {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_3, "Value": 2, "Verbatim": "odeur assez faible; aucune odeur"},
+    {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_3, "Value": 1, "Verbatim": "goût de poisson plus prononcé"},
+    {"Category": CAT_TASTE, "Descriptor": "Fresh", "Recipe": R_3, "Value": 2, "Verbatim": "humide; frais"},
+    {"Category": CAT_TASTE, "Descriptor": "Salty", "Recipe": R_3, "Value": 1, "Verbatim": "très salé"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Smooth", "Recipe": R_3, "Value": 2, "Verbatim": "très crémeux; on sent comme de la crème"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Easy swallowing", "Recipe": R_3, "Value": 1, "Verbatim": "fondant en bouche"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Lumpy", "Recipe": R_3, "Value": 1, "Verbatim": "texture un peu grumeleuse"},
+    {"Category": CAT_OVERALL, "Descriptor": "Not appetizing", "Recipe": R_3, "Value": 1, "Verbatim": "not appealing"},
+
+    # --- RECIPE 4 ---
     {"Category": CAT_APPEARANCE, "Descriptor": "Thick", "Recipe": R_4, "Value": 1, "Verbatim": "Aspect de bouillie"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_4, "Value": 1, "Verbatim": "aspect granuleux"},
+    {"Category": CAT_APPEARANCE, "Descriptor": "Colorful", "Recipe": R_4, "Value": 1, "Verbatim": "de la couleur, particules vertes et rouges"},
+    {"Category": CAT_AROMA, "Descriptor": "Weak aroma", "Recipe": R_4, "Value": 1, "Verbatim": "could be stronger"},
+    {"Category": CAT_AROMA, "Descriptor": "Fish", "Recipe": R_4, "Value": 1, "Verbatim": "odeur de poisson"},
+    {"Category": CAT_AROMA, "Descriptor": "Vegetal", "Recipe": R_4, "Value": 1, "Verbatim": "odeur végétale appréciée"},
+    {"Category": CAT_TASTE, "Descriptor": "Fish", "Recipe": R_4, "Value": 1, "Verbatim": "Bon parfum gustatif de poisson"},
+    {"Category": CAT_TASTE, "Descriptor": "Fresh", "Recipe": R_4, "Value": 1, "Verbatim": "plus frais"},
+    {"Category": CAT_TASTE, "Descriptor": "Salty", "Recipe": R_4, "Value": 1, "Verbatim": "salty"},
     {"Category": CAT_TEXTURE, "Descriptor": "Granular", "Recipe": R_4, "Value": 1, "Verbatim": "texture granuleuse"},
-    {"Category": CAT_TEXTURE, "Descriptor": "Sticky", "Recipe": R_4, "Value": 1, "Verbatim": "coller aux dents"},
+    {"Category": CAT_TEXTURE, "Descriptor": "Sticky", "Recipe": R_4, "Value": 1, "Verbatim": "impression de coller aux dents"},
     {"Category": CAT_OVERALL, "Descriptor": "Texture not great", "Recipe": R_4, "Value": 1, "Verbatim": "texture moyenne"}
 ]
 
 # ============================================================
-# 3. INTERACTIVE MATRIX GENERATOR ENGINE
+# 3. INTERACTIVE ENGINE WITH STRICT GEOMETRY VALIDATION
 # ============================================================
 df = pd.DataFrame(RAW_DATA)
-valid_rows = [row for idx, row in df.iterrows() if row["Category"] in ALLOWED_ATTRIBUTES and row["Descriptor"] in ALLOWED_ATTRIBUTES[row["Category"]]]
+
+# Keep only paths that match allowed hierarchy mappings perfectly
+valid_rows = []
+for idx, row in df.iterrows():
+    cat = row["Category"]
+    desc = row["Descriptor"]
+    if cat in ALLOWED_ATTRIBUTES and desc in ALLOWED_ATTRIBUTES[cat]:
+        valid_rows.append(row)
+
 filtered_df = pd.DataFrame(valid_rows)
 
 clean_df = (
@@ -144,6 +176,7 @@ for element_id in ids:
         colors_assigned.append(assigned_color)
 
 fig.data[0].marker.colors = colors_assigned
+
 fig.update_traces(
     textinfo="label",
     insidetextorientation='radial',  
@@ -152,14 +185,17 @@ fig.update_traces(
     hovertemplate="<b>Segment:</b> %{label}<br><b>Panel Mentions:</b> %{value}<br><br><i>Verbatims:</i><br>%{customdata[0]}<extra></extra>"
 )
 
+# Refined layout configurations ensuring centered positioning inside Streamlit
 fig.update_layout(
-    margin=dict(t=60, l=10, r=10, b=10),
+    margin=dict(t=80, l=10, r=10, b=10),
     plot_bgcolor="white",
     paper_bgcolor="white",
     height=850,
-    title_font=dict(size=22, family="Arial, sans-serif"),
-    title_x=0.5
+    title_font=dict(size=24, family="Arial, sans-serif"),
+    title_x=0.5,            # Exact geometric center coordinate
+    title_xanchor='center', # Anchors title string at its horizontal center
+    title_yanchor='top'
 )
 
-# Render seamlessly using Streamlit layout container
+# Render natively
 st.plotly_chart(fig, use_container_width=True)
